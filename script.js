@@ -1,200 +1,252 @@
 // Quiz Game Application
 class QuizGame {
     constructor() {
-        this.questions = {
-            programming: {
-                easy: [
-                    {
-                        question: "What does HTML stand for?",
-                        options: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"],
-                        correct: 0
-                    },
-                    {
-                        question: "Which keyword is used to declare a variable in JavaScript?",
-                        options: ["var", "int", "string", "declare"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the file extension for a Python file?",
-                        options: [".py", ".python", ".pt", ".pyt"],
-                        correct: 0
-                    }
-                ],
-                medium: [
-                    {
-                        question: "Which method is used to add an element to the end of an array in JavaScript?",
-                        options: ["push()", "pop()", "shift()", "unshift()"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the purpose of CSS in web development?",
-                        options: ["Structure and content", "Styling and layout", "Database management", "Server-side logic"],
-                        correct: 1
-                    },
-                    {
-                        question: "Which loop is guaranteed to execute at least once?",
-                        options: ["for loop", "while loop", "do-while loop", "foreach loop"],
-                        correct: 2
-                    },
-                    {
-                        question: "What is the time complexity of binary search?",
-                        options: ["O(n)", "O(log n)", "O(n²)", "O(1)"],
-                        correct: 1
-                    },
-                    {
-                        question: "Which data structure uses LIFO principle?",
-                        options: ["Queue", "Stack", "Array", "Tree"],
-                        correct: 1
-                    }
-                ],
-                hard: [
-                    {
-                        question: "What is the difference between let and const in JavaScript?",
-                        options: ["let can be reassigned, const cannot", "const can be reassigned, let cannot", "Both are the same", "let is for numbers, const is for strings"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is a closure in JavaScript?",
-                        options: ["A function with access to outer scope", "A way to close applications", "A type of loop", "A database connection"],
-                        correct: 0
-                    },
-                    {
-                        question: "Which design pattern is used to create objects without specifying the exact class?",
-                        options: ["Factory", "Singleton", "Observer", "Strategy"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the purpose of a promise in JavaScript?",
-                        options: ["Handle asynchronous operations", "Create variables", "Define functions", "Style elements"],
-                        correct: 0
-                    },
-                    {
-                        question: "Which HTTP method is typically used to update a resource?",
-                        options: ["GET", "POST", "PUT", "DELETE"],
-                        correct: 2
-                    },
-                    {
-                        question: "What is the difference between SQL and NoSQL databases?",
-                        options: ["SQL is relational, NoSQL is non-relational", "NoSQL is relational, SQL is non-relational", "Both are the same", "SQL is for web, NoSQL is for mobile"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the purpose of middleware in Node.js?",
-                        options: ["Process requests between request and response", "Create database connections", "Style HTML pages", "Handle frontend logic"],
-                        correct: 0
-                    },
-                    {
-                        question: "Which algorithm is used for finding the shortest path in a graph?",
-                        options: ["Dijkstra's algorithm", "Bubble sort", "Binary search", "Quick sort"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the difference between authentication and authorization?",
-                        options: ["Authentication is who you are, authorization is what you can do", "Authorization is who you are, authentication is what you can do", "Both are the same", "Authentication is for servers, authorization is for clients"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the purpose of Docker in development?",
-                        options: ["Containerize applications", "Write code", "Design UI", "Manage databases"],
-                        correct: 0
-                    }
-                ]
-            },
+        this.questions = this.initializeQuestions();
+        this.currentCategory = 'general';
+        this.currentDifficulty = 'easy';
+        this.currentQuestions = [];
+        this.currentQuestionIndex = 0;
+        this.score = 0;
+        this.correctAnswers = 0;
+        this.totalQuestions = 0;
+        this.gameActive = false;
+        
+        this.initializeElements();
+        this.attachEventListeners();
+        this.showScreen('welcomeScreen');
+    }
+    
+    initializeQuestions() {
+        return {
             general: {
                 easy: [
                     {
                         question: "What is the capital of France?",
                         options: ["London", "Berlin", "Paris", "Madrid"],
-                        correct: 2
+                        correct: 2,
+                        points: 10
                     },
                     {
-                        question: "Which planet is known as the Red Planet?",
-                        options: ["Venus", "Mars", "Jupiter", "Saturn"],
-                        correct: 1
+                        question: "What is 2 + 2?",
+                        options: ["3", "4", "5", "6"],
+                        correct: 1,
+                        points: 10
                     },
                     {
-                        question: "What is the largest ocean on Earth?",
-                        options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
-                        correct: 3
+                        question: "What color is the sky on a clear day?",
+                        options: ["Red", "Green", "Blue", "Yellow"],
+                        correct: 2,
+                        points: 10
                     }
                 ],
                 medium: [
                     {
                         question: "Who painted the Mona Lisa?",
-                        options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
-                        correct: 2
+                        options: ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Michelangelo"],
+                        correct: 1,
+                        points: 20
                     },
                     {
-                        question: "What is the smallest country in the world?",
-                        options: ["Monaco", "Vatican City", "San Marino", "Liechtenstein"],
-                        correct: 1
-                    },
-                    {
-                        question: "Which element has the chemical symbol 'Au'?",
-                        options: ["Silver", "Aluminum", "Gold", "Argon"],
-                        correct: 2
+                        question: "What is the largest planet in our solar system?",
+                        options: ["Earth", "Mars", "Jupiter", "Saturn"],
+                        correct: 2,
+                        points: 20
                     },
                     {
                         question: "In which year did World War II end?",
                         options: ["1943", "1944", "1945", "1946"],
-                        correct: 2
+                        correct: 2,
+                        points: 20
                     },
                     {
-                        question: "What is the speed of light?",
-                        options: ["299,792 km/s", "150,000 km/s", "500,000 km/s", "1,000,000 km/s"],
-                        correct: 0
+                        question: "What is the smallest country in the world?",
+                        options: ["Monaco", "Vatican City", "San Marino", "Liechtenstein"],
+                        correct: 1,
+                        points: 20
+                    },
+                    {
+                        question: "Who wrote 'Romeo and Juliet'?",
+                        options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+                        correct: 1,
+                        points: 20
                     }
                 ],
                 hard: [
                     {
-                        question: "What is the Heisenberg Uncertainty Principle about?",
-                        options: ["Position and momentum cannot be simultaneously measured precisely", "Energy is conserved", "Light travels in straight lines", "Gravity is universal"],
-                        correct: 0
+                        question: "What is the speed of light in vacuum?",
+                        options: ["299,792,458 m/s", "300,000,000 m/s", "299,000,000 m/s", "301,000,000 m/s"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "Who wrote 'One Hundred Years of Solitude'?",
-                        options: ["Gabriel García Márquez", "Jorge Luis Borges", "Pablo Neruda", "Mario Vargas Llosa"],
-                        correct: 0
+                        question: "Which element has the atomic number 79?",
+                        options: ["Silver", "Platinum", "Gold", "Copper"],
+                        correct: 2,
+                        points: 30
                     },
                     {
-                        question: "What is the Gödel's Incompleteness Theorem about?",
-                        options: ["Mathematical systems have inherent limitations", "Physics laws are complete", "Chemistry is predictable", "Biology evolves"],
-                        correct: 0
+                        question: "In what year was the Battle of Hastings fought?",
+                        options: ["1065", "1066", "1067", "1068"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "Which ancient wonder of the world still stands today?",
-                        options: ["Great Pyramid of Giza", "Hanging Gardens of Babylon", "Colossus of Rhodes", "Lighthouse of Alexandria"],
-                        correct: 0
+                        question: "What is the derivative of sin(x)?",
+                        options: ["cos(x)", "-cos(x)", "tan(x)", "-tan(x)"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "What is the Turing Test designed to evaluate?",
-                        options: ["Machine intelligence", "Human emotions", "Physical strength", "Artistic ability"],
-                        correct: 0
+                        question: "Which planet has the most moons?",
+                        options: ["Jupiter", "Saturn", "Uranus", "Neptune"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "Who developed the theory of continental drift?",
-                        options: ["Alfred Wegener", "Charles Darwin", "Albert Einstein", "Isaac Newton"],
-                        correct: 0
+                        question: "Who discovered penicillin?",
+                        options: ["Marie Curie", "Alexander Fleming", "Louis Pasteur", "Robert Koch"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "What is the Schrödinger's cat thought experiment about?",
-                        options: ["Quantum superposition", "Classical mechanics", "Relativity", "Thermodynamics"],
-                        correct: 0
+                        question: "What is the capital of Kazakhstan?",
+                        options: ["Almaty", "Nur-Sultan", "Shymkent", "Karaganda"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "Which philosopher wrote 'The Republic'?",
-                        options: ["Plato", "Aristotle", "Socrates", "Confucius"],
-                        correct: 0
+                        question: "In which year did the Byzantine Empire fall?",
+                        options: ["1450", "1451", "1452", "1453"],
+                        correct: 3,
+                        points: 30
                     },
                     {
-                        question: "What is the Fermi Paradox about?",
-                        options: ["Contradiction between high probability of extraterrestrial life and lack of contact", "Black hole physics", "Quantum entanglement", "Time travel paradoxes"],
-                        correct: 0
+                        question: "What is the chemical formula for glucose?",
+                        options: ["C6H12O6", "C12H22O11", "C6H10O5", "C5H10O5"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "Who invented the World Wide Web?",
-                        options: ["Tim Berners-Lee", "Bill Gates", "Steve Jobs", "Mark Zuckerberg"],
-                        correct: 0
+                        question: "Who composed 'The Four Seasons'?",
+                        options: ["Bach", "Mozart", "Vivaldi", "Beethoven"],
+                        correct: 2,
+                        points: 30
+                    }
+                ]
+            },
+            programming: {
+                easy: [
+                    {
+                        question: "What does HTML stand for?",
+                        options: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"],
+                        correct: 0,
+                        points: 10
+                    },
+                    {
+                        question: "Which language is primarily used for web styling?",
+                        options: ["JavaScript", "HTML", "CSS", "Python"],
+                        correct: 2,
+                        points: 10
+                    },
+                    {
+                        question: "What is the result of 5 + '5' in JavaScript?",
+                        options: ["10", "'55'", "Error", "undefined"],
+                        correct: 1,
+                        points: 10
+                    }
+                ],
+                medium: [
+                    {
+                        question: "What is a closure in JavaScript?",
+                        options: ["A function that returns another function", "A way to close browser windows", "A type of loop", "A method to stop execution"],
+                        correct: 0,
+                        points: 20
+                    },
+                    {
+                        question: "Which sorting algorithm has O(n log n) average time complexity?",
+                        options: ["Bubble Sort", "Quick Sort", "Selection Sort", "Insertion Sort"],
+                        correct: 1,
+                        points: 20
+                    },
+                    {
+                        question: "What does API stand for?",
+                        options: ["Application Programming Interface", "Advanced Programming Interface", "Application Process Integration", "Automated Programming Interface"],
+                        correct: 0,
+                        points: 20
+                    },
+                    {
+                        question: "Which data structure uses LIFO principle?",
+                        options: ["Queue", "Stack", "Array", "Tree"],
+                        correct: 1,
+                        points: 20
+                    },
+                    {
+                        question: "What is the purpose of Git?",
+                        options: ["To compile code", "Version control", "To test applications", "To design interfaces"],
+                        correct: 1,
+                        points: 20
+                    }
+                ],
+                hard: [
+                    {
+                        question: "What is the time complexity of Dijkstra's algorithm with a binary heap?",
+                        options: ["O(V²)", "O(E + V log V)", "O(V log V)", "O(E log V)"],
+                        correct: 3,
+                        points: 30
+                    },
+                    {
+                        question: "What is the difference between == and === in JavaScript?",
+                        options: ["No difference", "== checks type, === checks value", "== checks value, === checks value and type", "== is faster"],
+                        correct: 2,
+                        points: 30
+                    },
+                    {
+                        question: "What is the purpose of the 'volatile' keyword in Java?",
+                        options: ["To make variables constant", "To indicate variables may change unexpectedly", "To improve performance", "To create thread-safe methods"],
+                        correct: 1,
+                        points: 30
+                    },
+                    {
+                        question: "What is the maximum recursion depth in Python by default?",
+                        options: ["100", "500", "1000", "5000"],
+                        correct: 2,
+                        points: 30
+                    },
+                    {
+                        question: "Which design pattern is used to create objects without specifying their exact classes?",
+                        options: ["Singleton", "Factory", "Observer", "Decorator"],
+                        correct: 1,
+                        points: 30
+                    },
+                    {
+                        question: "What is the purpose of the 'finally' block in try-catch?",
+                        options: ["To handle exceptions", "To execute code regardless of exceptions", "To throw exceptions", "To ignore exceptions"],
+                        correct: 1,
+                        points: 30
+                    },
+                    {
+                        question: "What is the difference between HTTP and HTTPS?",
+                        options: ["Speed", "Port number", "Encryption", "Protocol version"],
+                        correct: 2,
+                        points: 30
+                    },
+                    {
+                        question: "What is the purpose of the 'virtual' keyword in C++?",
+                        options: ["To create virtual functions", "To allocate memory", "To create pure virtual classes", "To optimize code"],
+                        correct: 0,
+                        points: 30
+                    },
+                    {
+                        question: "What is the space complexity of merge sort?",
+                        options: ["O(1)", "O(log n)", "O(n)", "O(n²)"],
+                        correct: 2,
+                        points: 30
+                    },
+                    {
+                        question: "What is the purpose of the 'synchronized' keyword in Java?",
+                        options: ["To optimize performance", "To ensure thread safety", "To compile faster", "To debug code"],
+                        correct: 1,
+                        points: 30
                     }
                 ]
             },
@@ -203,292 +255,346 @@ class QuizGame {
                     {
                         question: "Who was the first President of the United States?",
                         options: ["Thomas Jefferson", "George Washington", "Abraham Lincoln", "John Adams"],
-                        correct: 1
+                        correct: 1,
+                        points: 10
                     },
                     {
-                        question: "In which year did Christopher Columbus reach America?",
+                        question: "In which year did Columbus discover America?",
                         options: ["1490", "1491", "1492", "1493"],
-                        correct: 2
+                        correct: 2,
+                        points: 10
                     },
                     {
-                        question: "Which ancient civilization built the pyramids?",
-                        options: ["Greeks", "Romans", "Egyptians", "Persians"],
-                        correct: 2
+                        question: "Who built the pyramids in Egypt?",
+                        options: ["Romans", "Greeks", "Ancient Egyptians", "Persians"],
+                        correct: 2,
+                        points: 10
                     }
                 ],
                 medium: [
                     {
-                        question: "Who was the British Prime Minister during World War II?",
-                        options: ["Neville Chamberlain", "Winston Churchill", "Margaret Thatcher", "Tony Blair"],
-                        correct: 1
-                    },
-                    {
-                        question: "The Renaissance began in which country?",
-                        options: ["France", "Germany", "Italy", "Spain"],
-                        correct: 2
-                    },
-                    {
-                        question: "Who wrote the Declaration of Independence?",
-                        options: ["George Washington", "Benjamin Franklin", "Thomas Jefferson", "John Adams"],
-                        correct: 2
-                    },
-                    {
-                        question: "Which empire was ruled by Julius Caesar?",
-                        options: ["Greek Empire", "Roman Empire", "Byzantine Empire", "Ottoman Empire"],
-                        correct: 1
-                    },
-                    {
-                        question: "In which year did the Berlin Wall fall?",
-                        options: ["1987", "1988", "1989", "1990"],
-                        correct: 2
-                    }
-                ],
-                hard: [
-                    {
-                        question: "What was the main cause of the Thirty Years' War?",
-                        options: ["Religious conflict between Protestants and Catholics", "Territorial disputes", "Economic crisis", "Dynastic succession"],
-                        correct: 0
+                        question: "When did the Roman Empire fall?",
+                        options: ["476 AD", "500 AD", "410 AD", "450 AD"],
+                        correct: 0,
+                        points: 20
                     },
                     {
                         question: "Who was the first Emperor of Rome?",
                         options: ["Julius Caesar", "Augustus", "Nero", "Marcus Aurelius"],
-                        correct: 1
+                        correct: 1,
+                        points: 20
                     },
                     {
-                        question: "The Treaty of Westphalia in 1648 established what principle?",
-                        options: ["State sovereignty", "Divine right of kings", "Separation of church and state", "Free trade"],
-                        correct: 0
+                        question: "In which year did the American Civil War begin?",
+                        options: ["1859", "1860", "1861", "1862"],
+                        correct: 2,
+                        points: 20
                     },
                     {
-                        question: "Which battle marked the turning point in the Pacific War during WWII?",
-                        options: ["Battle of Midway", "Battle of Guadalcanal", "Battle of Iwo Jima", "Battle of Okinawa"],
-                        correct: 0
+                        question: "Who discovered America in 1492?",
+                        options: ["Vasco da Gama", "Christopher Columbus", "Ferdinand Magellan", "Marco Polo"],
+                        correct: 1,
+                        points: 20
                     },
                     {
-                        question: "The Magna Carta was signed in which year?",
-                        options: ["1205", "1215", "1225", "1235"],
-                        correct: 1
+                        question: "When was the Declaration of Independence signed?",
+                        options: ["1774", "1775", "1776", "1777"],
+                        correct: 2,
+                        points: 20
+                    }
+                ],
+                hard: [
+                    {
+                        question: "In which year did the Battle of Waterloo take place?",
+                        options: ["1813", "1814", "1815", "1816"],
+                        correct: 2,
+                        points: 30
                     },
                     {
-                        question: "Who was the founder of the Ming Dynasty?",
-                        options: ["Kublai Khan", "Zhu Yuanzhang", "Genghis Khan", "Qin Shi Huang"],
-                        correct: 1
+                        question: "Who was the last Pharaoh of Egypt?",
+                        options: ["Cleopatra", "Nefertiti", "Hatshepsut", "Tutankhamun"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "The Industrial Revolution began in which country?",
-                        options: ["France", "Germany", "United Kingdom", "United States"],
-                        correct: 2
+                        question: "When did the Ming Dynasty begin in China?",
+                        options: ["1366", "1367", "1368", "1369"],
+                        correct: 2,
+                        points: 30
                     },
                     {
-                        question: "Which ancient Greek philosopher was Alexander the Great's tutor?",
-                        options: ["Socrates", "Plato", "Aristotle", "Epicurus"],
-                        correct: 2
+                        question: "Who was the first Muslim Caliph after Prophet Muhammad?",
+                        options: ["Umar", "Abu Bakr", "Uthman", "Ali"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "The fall of Constantinople occurred in which year?",
-                        options: ["1453", "1492", "1521", "1588"],
-                        correct: 0
+                        question: "In which year did the Ottoman Empire capture Constantinople?",
+                        options: ["1451", "1452", "1453", "1454"],
+                        correct: 2,
+                        points: 30
                     },
                     {
-                        question: "Who was the first female Prime Minister of the United Kingdom?",
-                        options: ["Theresa May", "Margaret Thatcher", "Liz Truss", "Angela Rayner"],
-                        correct: 1
+                        question: "Who wrote 'The Art of War'?",
+                        options: ["Confucius", "Lao Tzu", "Sun Tzu", "Mencius"],
+                        correct: 2,
+                        points: 30
+                    },
+                    {
+                        question: "When did the Russian Revolution take place?",
+                        options: ["1915", "1916", "1917", "1918"],
+                        correct: 2,
+                        points: 30
+                    },
+                    {
+                        question: "Who was the first Emperor of China?",
+                        options: ["Tang Taizong", "Qin Shi Huang", "Han Wudi", "Ming Taizu"],
+                        correct: 1,
+                        points: 30
+                    },
+                    {
+                        question: "In which year did the Spanish Armada attack England?",
+                        options: ["1586", "1587", "1588", "1589"],
+                        correct: 2,
+                        points: 30
+                    },
+                    {
+                        question: "Who was the founder of the Mongol Empire?",
+                        options: ["Kublai Khan", "Genghis Khan", "Batu Khan", "Hulagu Khan"],
+                        correct: 1,
+                        points: 30
                     }
                 ]
             },
             politics: {
                 easy: [
                     {
-                        question: "How many branches of government does the United States have?",
+                        question: "How many branches of government are there in the US?",
                         options: ["2", "3", "4", "5"],
-                        correct: 1
+                        correct: 1,
+                        points: 10
                     },
                     {
                         question: "Who is the current President of the United States? (as of 2024)",
-                        options: ["Donald Trump", "Joe Biden", "Barack Obama", "George Bush"],
-                        correct: 1
+                        options: ["Joe Biden", "Donald Trump", "Barack Obama", "George Bush"],
+                        correct: 0,
+                        points: 10
                     },
                     {
-                        question: "Which country has the largest democracy in the world?",
-                        options: ["United States", "China", "India", "Russia"],
-                        correct: 2
+                        question: "What is the capital of the United States?",
+                        options: ["New York", "Los Angeles", "Washington D.C.", "Chicago"],
+                        correct: 2,
+                        points: 10
                     }
                 ],
                 medium: [
                     {
-                        question: "What is the term length for a U.S. Senator?",
-                        options: ["2 years", "4 years", "6 years", "8 years"],
-                        correct: 2
+                        question: "How many members are in the US House of Representatives?",
+                        options: ["100", "435", "535", "650"],
+                        correct: 1,
+                        points: 20
                     },
                     {
-                        question: "Which political system has no hereditary rulers?",
-                        options: ["Monarchy", "Democracy", "Empire", "Kingdom"],
-                        correct: 1
+                        question: "How many senators are there from each state?",
+                        options: ["1", "2", "3", "4"],
+                        correct: 1,
+                        points: 20
                     },
                     {
-                        question: "The United Nations was founded in which year?",
-                        options: ["1943", "1945", "1947", "1949"],
-                        correct: 1
+                        question: "What is the term length for a US President?",
+                        options: ["4 years", "6 years", "8 years", "2 years"],
+                        correct: 0,
+                        points: 20
                     },
                     {
-                        question: "How many members are in the U.S. House of Representatives?",
-                        options: ["100", "435", "538", "270"],
-                        correct: 1
+                        question: "How many Supreme Court justices are there?",
+                        options: ["7", "8", "9", "10"],
+                        correct: 2,
+                        points: 20
                     },
                     {
-                        question: "Which amendment gave women the right to vote in the U.S.?",
-                        options: ["16th", "17th", "18th", "19th"],
-                        correct: 3
+                        question: "What is the minimum age to become US President?",
+                        options: ["30", "35", "40", "45"],
+                        correct: 1,
+                        points: 20
                     }
                 ],
                 hard: [
                     {
-                        question: "What is the difference between a parliamentary and presidential system?",
-                        options: ["Parliamentary: executive and legislative fused, Presidential: separated", "Parliamentary: president elected, Presidential: prime minister appointed", "Parliamentary: no constitution, Presidential: written constitution", "Parliamentary: multi-party, Presidential: two-party"],
-                        correct: 0
+                        question: "What is the 25th Amendment about?",
+                        options: ["Presidential term limits", "Presidential disability and succession", "Voting rights", "Congressional terms"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "The concept of 'separation of powers' was developed by which philosopher?",
-                        options: ["John Locke", "Montesquieu", "Rousseau", "Hobbes"],
-                        correct: 1
+                        question: "How many electoral votes are needed to win the presidency?",
+                        options: ["270", "300", "350", "400"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "What is gerrymandering?",
-                        options: ["Manipulating electoral districts for political advantage", "Campaign financing", "Voter registration process", "Election monitoring"],
-                        correct: 0
+                        question: "What is the 'filibuster' in the US Senate?",
+                        options: ["A type of vote", "A tactic to delay or block legislation", "A committee meeting", "A presidential veto"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "The European Union has how many member countries as of 2024?",
-                        options: ["25", "27", "29", "31"],
-                        correct: 1
+                        question: "Which amendment guarantees freedom of speech?",
+                        options: ["First Amendment", "Second Amendment", "Third Amendment", "Fourth Amendment"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "Which document established the principle of 'rule of law'?",
-                        options: ["Magna Carta", "Declaration of Independence", "Constitution", "Bill of Rights"],
-                        correct: 0
+                        question: "What is the 'Electoral College'?",
+                        options: ["A university for politicians", "The body that elects the President", "A voting method", "A political party"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "What is the 'filibuster' in U.S. Senate procedure?",
-                        options: ["Prolonged speech to delay legislation", "Type of voting", "Committee process", "Veto power"],
-                        correct: 0
+                        question: "How many articles are in the US Constitution?",
+                        options: ["5", "6", "7", "8"],
+                        correct: 2,
+                        points: 30
                     },
                     {
-                        question: "The 'Iron Curtain' speech was delivered by which leader?",
-                        options: ["Winston Churchill", "Franklin D. Roosevelt", "Harry Truman", "Dwight Eisenhower"],
-                        correct: 0
+                        question: "What is 'gerrymandering'?",
+                        options: ["Drawing district boundaries for political advantage", "A type of voting", "A legislative process", "A judicial review"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "What is the 'Electoral College' in the U.S. election system?",
-                        options: ["Body that elects the President", "Educational institution for politicians", "Campaign training center", "Voter registration office"],
-                        correct: 0
+                        question: "What is the 'line-item veto'?",
+                        options: ["Vetoing entire bills", "Vetoing specific parts of bills", "A type of amendment", "A congressional power"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "The 'Marshall Plan' was designed to do what?",
-                        options: ["Rebuild Europe after WWII", "Establish NATO", "Create the United Nations", "End the Cold War"],
-                        correct: 0
+                        question: "How many amendments does the US Constitution have?",
+                        options: ["25", "26", "27", "28"],
+                        correct: 2,
+                        points: 30
                     },
                     {
-                        question: "What is 'sovereignty' in political science?",
-                        options: ["Supreme authority within a territory", "International diplomacy", "Economic independence", "Military power"],
-                        correct: 0
+                        question: "What is the 'War Powers Act'?",
+                        options: ["Declares war", "Limits presidential war powers", "Funds military", "Creates military"],
+                        correct: 1,
+                        points: 30
                     }
                 ]
             },
             science: {
                 easy: [
                     {
-                        question: "What is H2O commonly known as?",
-                        options: ["Hydrogen", "Oxygen", "Water", "Carbon"],
-                        correct: 2
+                        question: "What is H2O?",
+                        options: ["Oxygen", "Hydrogen", "Water", "Carbon"],
+                        correct: 2,
+                        points: 10
                     },
                     {
-                        question: "How many bones are in the human body?",
-                        options: ["106", "206", "306", "406"],
-                        correct: 1
+                        question: "How many planets are in our solar system?",
+                        options: ["7", "8", "9", "10"],
+                        correct: 1,
+                        points: 10
                     },
                     {
                         question: "What is the largest organ in the human body?",
                         options: ["Heart", "Brain", "Liver", "Skin"],
-                        correct: 3
+                        correct: 3,
+                        points: 10
                     }
                 ],
                 medium: [
                     {
                         question: "What is the powerhouse of the cell?",
-                        options: ["Nucleus", "Mitochondria", "Ribosome", "Chloroplast"],
-                        correct: 1
+                        options: ["Nucleus", "Mitochondria", "Ribosome", "Golgi apparatus"],
+                        correct: 1,
+                        points: 20
                     },
                     {
-                        question: "What force keeps planets in orbit around the sun?",
-                        options: ["Magnetism", "Gravity", "Friction", "Nuclear force"],
-                        correct: 1
+                        question: "What is the chemical symbol for gold?",
+                        options: ["Go", "Gd", "Au", "Ag"],
+                        correct: 2,
+                        points: 20
                     },
                     {
-                        question: "What is the chemical formula for glucose?",
-                        options: ["C6H12O6", "H2O", "CO2", "NaCl"],
-                        correct: 0
+                        question: "What is the speed of light?",
+                        options: ["299,792,458 m/s", "300,000 km/s", "186,282 miles/s", "All of the above"],
+                        correct: 3,
+                        points: 20
                     },
                     {
-                        question: "Which gas makes up most of Earth's atmosphere?",
-                        options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"],
-                        correct: 2
+                        question: "What is DNA?",
+                        options: ["Deoxyribonucleic Acid", "Ribonucleic Acid", "Amino Acid", "Protein"],
+                        correct: 0,
+                        points: 20
                     },
                     {
-                        question: "What is the speed of sound in air?",
-                        options: ["343 m/s", "500 m/s", "1000 m/s", "1500 m/s"],
-                        correct: 0
+                        question: "What is the smallest unit of matter?",
+                        options: ["Molecule", "Atom", "Proton", "Electron"],
+                        correct: 1,
+                        points: 20
                     }
                 ],
                 hard: [
                     {
-                        question: "What is the difference between mitosis and meiosis?",
-                        options: ["Mitosis produces identical cells, meiosis produces gametes", "Meiosis produces identical cells, mitosis produces gametes", "Both are the same", "Mitosis is for plants, meiosis is for animals"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the Pauli Exclusion Principle?",
-                        options: ["No two electrons can have the same quantum state", "Energy is conserved", "Matter cannot be created or destroyed", "Light travels at constant speed"],
-                        correct: 0
-                    },
-                    {
-                        question: "What causes the Northern Lights (Aurora Borealis)?",
-                        options: ["Solar particles interacting with Earth's magnetic field", "Reflection of moonlight", "Lightning storms", "Volcanic eruptions"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the difference between DNA and RNA?",
-                        options: ["DNA has deoxyribose, RNA has ribose", "RNA has deoxyribose, DNA has ribose", "Both are identical", "DNA is single-stranded, RNA is double-stranded"],
-                        correct: 0
-                    },
-                    {
                         question: "What is the Heisenberg Uncertainty Principle?",
-                        options: ["Cannot simultaneously measure position and momentum precisely", "Energy is conserved", "Light speed is constant", "Gravity is universal"],
-                        correct: 0
+                        options: ["Energy conservation", "Position and momentum cannot be precisely measured simultaneously", "Wave-particle duality", "Quantum entanglement"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "What causes tides?",
-                        options: ["Gravitational pull of moon and sun", "Earth's rotation", "Wind patterns", "Ocean currents"],
-                        correct: 0
+                        question: "What is the molecular weight of water?",
+                        options: ["16", "18", "20", "22"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "What is the difference between mass and weight?",
-                        options: ["Mass is constant, weight varies with gravity", "Weight is constant, mass varies with gravity", "Both are the same", "Mass depends on volume, weight on density"],
-                        correct: 0
+                        question: "What is the pH of pure water?",
+                        options: ["6", "7", "8", "9"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "What is the Doppler Effect?",
-                        options: ["Frequency change due to relative motion", "Light bending", "Sound amplification", "Heat transfer"],
-                        correct: 0
+                        question: "What is the Schwarzschild radius?",
+                        options: ["Radius of Earth", "Event horizon radius of a black hole", "Atomic radius", "Planck length"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "What causes seasons on Earth?",
-                        options: ["Tilt of Earth's axis", "Distance from sun", "Earth's rotation", "Solar flares"],
-                        correct: 0
+                        question: "What is the half-life of Carbon-14?",
+                        options: ["5,730 years", "10,000 years", "1,000 years", "50,000 years"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "What is the difference between a hypothesis and a theory?",
-                        options: ["Hypothesis is testable prediction, theory is well-supported explanation", "Theory is prediction, hypothesis is explanation", "Both are the same", "Hypothesis is proven, theory is not"],
-                        correct: 0
+                        question: "What is the Avogadro constant?",
+                        options: ["6.022 × 10²³", "3.14159", "9.8 m/s²", "299,792,458 m/s"],
+                        correct: 0,
+                        points: 30
+                    },
+                    {
+                        question: "What is the Bohr model?",
+                        options: ["Atomic model with electrons in discrete energy levels", "Model of the solar system", "Model of DNA", "Model of cell division"],
+                        correct: 0,
+                        points: 30
+                    },
+                    {
+                        question: "What is the Planck constant?",
+                        options: ["6.626 × 10⁻³⁴ J·s", "3.14159", "9.8 m/s²", "1.602 × 10⁻¹⁹ C"],
+                        correct: 0,
+                        points: 30
+                    },
+                    {
+                        question: "What is the Rydberg constant?",
+                        options: ["1.097 × 10⁷ m⁻¹", "6.626 × 10⁻³⁴ J·s", "9.8 m/s²", "299,792,458 m/s"],
+                        correct: 0,
+                        points: 30
+                    },
+                    {
+                        question: "What is the Boltzmann constant?",
+                        options: ["1.38 × 10⁻²³ J/K", "6.626 × 10⁻³⁴ J·s", "9.8 m/s²", "299,792,458 m/s"],
+                        correct: 0,
+                        points: 30
                     }
                 ]
             },
@@ -497,606 +603,392 @@ class QuizGame {
                     {
                         question: "How many players are on a basketball team?",
                         options: ["4", "5", "6", "7"],
-                        correct: 1
+                        correct: 1,
+                        points: 10
                     },
                     {
-                        question: "In which sport would you perform a slam dunk?",
-                        options: ["Tennis", "Basketball", "Soccer", "Golf"],
-                        correct: 1
+                        question: "In which sport do you use a shuttlecock?",
+                        options: ["Tennis", "Badminton", "Squash", "Racquetball"],
+                        correct: 1,
+                        points: 10
                     },
                     {
-                        question: "How often are the Olympic Games held?",
-                        options: ["Every 2 years", "Every 3 years", "Every 4 years", "Every 5 years"],
-                        correct: 2
+                        question: "How many innings are in a baseball game?",
+                        options: ["7", "8", "9", "10"],
+                        correct: 2,
+                        points: 10
                     }
                 ],
                 medium: [
                     {
-                        question: "Which country has won the most FIFA World Cups?",
-                        options: ["Germany", "Argentina", "Brazil", "Italy"],
-                        correct: 2
+                        question: "How often are the Olympic Games held?",
+                        options: ["Every 2 years", "Every 3 years", "Every 4 years", "Every 5 years"],
+                        correct: 2,
+                        points: 20
                     },
                     {
-                        question: "In tennis, what is a score of zero called?",
-                        options: ["Nil", "Zero", "Love", "Nothing"],
-                        correct: 2
+                        question: "In which year was the first FIFA World Cup held?",
+                        options: ["1928", "1930", "1932", "1934"],
+                        correct: 1,
+                        points: 20
                     },
                     {
-                        question: "How many rounds are there in a professional boxing match?",
-                        options: ["10", "12", "15", "8"],
-                        correct: 1
-                    },
-                    {
-                        question: "Which sport is known as 'the beautiful game'?",
-                        options: ["Tennis", "Basketball", "Soccer", "Golf"],
-                        correct: 2
+                        question: "How many Grand Slam tennis tournaments are there?",
+                        options: ["2", "3", "4", "5"],
+                        correct: 2,
+                        points: 20
                     },
                     {
                         question: "What is the maximum score in ten-pin bowling?",
                         options: ["200", "250", "300", "350"],
-                        correct: 2
+                        correct: 2,
+                        points: 20
+                    },
+                    {
+                        question: "How many players are on a soccer team on the field?",
+                        options: ["9", "10", "11", "12"],
+                        correct: 2,
+                        points: 20
                     }
                 ],
                 hard: [
                     {
-                        question: "What is the 'offside rule' in soccer?",
-                        options: ["Player cannot be closer to goal than second-last defender when ball is played", "Player must stay in own half", "Player cannot tackle from behind", "Player must keep both feet on ground"],
-                        correct: 0
+                        question: "What is the 'triple crown' in horse racing?",
+                        options: ["Kentucky Derby, Preakness, Belmont", "Three wins in one season", "Three different horses", "Three jockeys"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "In cricket, what is a 'duck'?",
-                        options: ["Score of zero", "Hitting six runs", "Catching ball", "Bowling out batsman"],
-                        correct: 0
+                        question: "What is the 'perfect game' in baseball?",
+                        options: ["No hits, no walks, no errors", "27 consecutive outs", "Strikeout every batter", "Home run every at-bat"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "What is the difference between Grand Slam and Masters 1000 in tennis?",
-                        options: ["Grand Slams are more prestigious with more points", "Masters are more prestigious", "Both are equal", "Grand Slams are for doubles only"],
-                        correct: 0
+                        question: "What is the 'ironman' streak in NFL?",
+                        options: ["Most consecutive games played", "Most touchdowns", "Most yards", "Most sacks"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "In American football, what is a 'two-point conversion'?",
-                        options: ["Scoring 2 points instead of extra point after touchdown", "Scoring 2 touchdowns", "Kicking 2 field goals", "Running 2 yards"],
-                        correct: 0
+                        question: "What is the 'four minute mile'?",
+                        options: ["Running a mile under 4 minutes", "Swimming a mile under 4 minutes", "Cycling a mile under 4 minutes", "All of the above"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "What is the 'ironman' in triathlon?",
-                        options: ["Full distance triathlon (2.4 mile swim, 112 mile bike, 26.2 mile run)", "Half triathlon", "Sprint triathlon", "Olympic triathlon"],
-                        correct: 0
+                        question: "What is the 'yips' in golf?",
+                        options: ["A type of club", "A golf course", "Nervous condition affecting putting", "A type of swing"],
+                        correct: 2,
+                        points: 30
                     },
                     {
-                        question: "In golf, what is a 'birdie'?",
-                        options: ["One stroke under par", "One stroke over par", "Two strokes under par", "Hole in one"],
-                        correct: 0
+                        question: "What is the 'dead ball' era in baseball?",
+                        options: ["Early 1900s with low scoring", "Modern baseball", "Future baseball", "International baseball"],
+                        correct: 0,
+                        points: 30
                     },
                     {
-                        question: "What is the 'decathlon' in track and field?",
-                        options: ["10 events over 2 days", "5 events in 1 day", "Marathon with obstacles", "Team competition"],
-                        correct: 0
+                        question: "What is the 'triangle offense' in basketball?",
+                        options: ["A defensive strategy", "An offensive strategy", "A type of dribble", "A type of shot"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "In baseball, what is a 'perfect game'?",
-                        options: ["No opposing batter reaches base", "Team scores in every inning", "Pitcher strikes out everyone", "Game ends in 9 innings"],
-                        correct: 0
+                        question: "What is the 'tuck rule' in NFL?",
+                        options: ["A passing rule", "A fumble rule", "A scoring rule", "A timeout rule"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "What is the 'yellow jersey' in Tour de France?",
-                        options: ["Worn by overall race leader", "Best climber", "Best sprinter", "Most aggressive rider"],
-                        correct: 0
+                        question: "What is the 'silver medal'?",
+                        options: ["First place", "Second place", "Third place", "Fourth place"],
+                        correct: 1,
+                        points: 30
                     },
                     {
-                        question: "In volleyball, what is a 'kill'?",
-                        options: ["Attack that results in point", "Serving ace", "Block that scores", "Set that leads to point"],
-                        correct: 0
-                    }
-                ]
-            },
-            geography: {
-                easy: [
-                    {
-                        question: "What is the capital of Japan?",
-                        options: ["Seoul", "Beijing", "Tokyo", "Bangkok"],
-                        correct: 2
-                    },
-                    {
-                        question: "Which continent is Egypt located in?",
-                        options: ["Asia", "Europe", "Africa", "South America"],
-                        correct: 2
-                    },
-                    {
-                        question: "What is the longest river in the world?",
-                        options: ["Amazon", "Nile", "Mississippi", "Yangtze"],
-                        correct: 1
-                    }
-                ],
-                medium: [
-                    {
-                        question: "How many continents are there?",
-                        options: ["5", "6", "7", "8"],
-                        correct: 2
-                    },
-                    {
-                        question: "Which country has the largest population?",
-                        options: ["India", "China", "United States", "Indonesia"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the smallest country in Asia?",
-                        options: ["Maldives", "Singapore", "Brunei", "Bahrain"],
-                        correct: 1
-                    },
-                    {
-                        question: "Which desert is the largest in the world?",
-                        options: ["Sahara", "Arabian", "Gobi", "Antarctica"],
-                        correct: 3
-                    },
-                    {
-                        question: "What is the deepest ocean trench?",
-                        options: ["Java Trench", "Puerto Rico Trench", "Mariana Trench", "Japan Trench"],
-                        correct: 2
-                    }
-                ],
-                hard: [
-                    {
-                        question: "What is the difference between latitude and longitude?",
-                        options: ["Latitude measures north-south, longitude measures east-west", "Longitude measures north-south, latitude measures east-west", "Both measure the same", "Latitude is for land, longitude is for water"],
-                        correct: 0
-                    },
-                    {
-                        question: "Which country spans the most time zones?",
-                        options: ["Russia", "United States", "China", "France"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the Ring of Fire?",
-                        options: ["Area around Pacific Ocean with high volcanic and seismic activity", "Circle of volcanoes in Africa", "Fire festival in Asia", "Climate change phenomenon"],
-                        correct: 0
-                    },
-                    {
-                        question: "Which mountain range separates Europe and Asia?",
-                        options: ["Alps", "Pyrenees", "Ural Mountains", "Carpathians"],
-                        correct: 2
-                    },
-                    {
-                        question: "What is a 'peninsula'?",
-                        options: ["Land surrounded by water on three sides", "Island", "Desert area", "Mountain region"],
-                        correct: 0
-                    },
-                    {
-                        question: "Which sea is the saltiest in the world?",
-                        options: ["Dead Sea", "Red Sea", "Mediterranean Sea", "Black Sea"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the 'Tropic of Cancer'?",
-                        options: ["Northernmost point where sun can be directly overhead", "Southernmost point where sun can be directly overhead", "Equator", "Arctic Circle"],
-                        correct: 0
-                    },
-                    {
-                        question: "Which country has the most coastline?",
-                        options: ["Canada", "Russia", "Australia", "Indonesia"],
-                        correct: 0
-                    },
-                    {
-                        question: "What causes earthquakes?",
-                        options: ["Movement of tectonic plates", "Volcanic eruptions", "Human activity", "Weather changes"],
-                        correct: 0
-                    },
-                    {
-                        question: "What is the difference between weather and climate?",
-                        options: ["Weather is short-term, climate is long-term", "Climate is short-term, weather is long-term", "Both are the same", "Weather is for land, climate is for oceans"],
-                        correct: 0
+                        question: "What is the 'hat trick' in hockey?",
+                        options: ["Three goals in one game", "Three assists", "Three penalties", "Three saves"],
+                        correct: 0,
+                        points: 30
                     }
                 ]
             }
         };
-
-        this.currentDifficulty = null;
-        this.currentCategory = null;
-        this.currentQuestions = [];
-        this.currentQuestionIndex = 0;
-        this.score = 0;
-        this.timer = null;
-        this.timeLeft = 15;
-        this.totalTime = 0;
-        this.selectedOption = null;
-        this.isAnswered = false;
-
-        this.init();
     }
-
-    init() {
-        this.setupEventListeners();
-        this.showScreen('startScreen');
-    }
-
-    setupEventListeners() {
-        // Difficulty buttons
-        document.querySelectorAll('.difficulty-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => this.selectDifficulty(e));
-        });
-
-        // Category buttons
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => this.selectCategory(e));
-        });
-
-        // Start quiz button
-        document.getElementById('startQuizBtn').addEventListener('click', () => this.startQuiz());
-
-        // Option buttons
-        document.querySelectorAll('.option').forEach(option => {
-            option.addEventListener('click', (e) => this.selectOption(e));
-        });
-
-        // Control buttons
-        document.getElementById('previousBtn').addEventListener('click', () => this.previousQuestion());
-        document.getElementById('exitBtn').addEventListener('click', () => this.exitQuiz());
-        document.getElementById('checkBtn').addEventListener('click', () => this.checkAnswer());
-
-        // Score screen buttons
-        document.getElementById('restartBtn').addEventListener('click', () => this.restartQuiz());
-        document.getElementById('homeBtn').addEventListener('click', () => this.goToHome());
-    }
-
-    selectDifficulty(e) {
-        document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('active'));
-        e.currentTarget.classList.add('active');
-        this.currentDifficulty = e.currentTarget.dataset.difficulty;
-        this.updateStartButton();
-    }
-
-    selectCategory(e) {
-        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-        e.currentTarget.classList.add('active');
-        this.currentCategory = e.currentTarget.dataset.category;
-        this.updateStartButton();
-    }
-
-    updateStartButton() {
-        const startBtn = document.getElementById('startQuizBtn');
-        if (this.currentDifficulty && this.currentCategory) {
-            startBtn.disabled = false;
-        }
-    }
-
-    startQuiz() {
-        this.currentQuestions = this.getQuestions();
-        this.currentQuestionIndex = 0;
-        this.score = 0;
-        this.totalTime = 0;
-        this.showScreen('quizScreen');
-        this.loadQuestion();
-    }
-
-    getQuestions() {
-        let questions = [];
+    
+    initializeElements() {
+        // Screens
+        this.welcomeScreen = document.getElementById('welcomeScreen');
+        this.gameScreen = document.getElementById('gameScreen');
+        this.scoreScreen = document.getElementById('scoreScreen');
         
-        if (this.currentCategory === 'all') {
-            // Get questions from all categories
-            const categories = Object.keys(this.questions);
-            categories.forEach(category => {
-                if (this.questions[category][this.currentDifficulty]) {
-                    questions = questions.concat(this.questions[category][this.currentDifficulty]);
-                }
+        // Welcome screen elements
+        this.categorySelect = document.getElementById('categorySelect');
+        this.difficultyButtons = document.querySelectorAll('.difficulty-btn');
+        this.startGameBtn = document.getElementById('startGame');
+        
+        // Game screen elements
+        this.currentScoreEl = document.getElementById('currentScore');
+        this.currentQuestionEl = document.getElementById('currentQuestion');
+        this.totalQuestionsEl = document.getElementById('totalQuestions');
+        this.characterQuestionEl = document.getElementById('characterQuestion');
+        this.questionTextEl = document.getElementById('questionText');
+        this.optionsContainer = document.getElementById('optionsContainer');
+        this.nextButton = document.getElementById('nextButton');
+        this.appreciationMessageEl = document.getElementById('appreciationMessage');
+        
+        // Score screen elements
+        this.finalMessageEl = document.getElementById('finalMessage');
+        this.totalQuestionsScoreEl = document.getElementById('totalQuestionsScore');
+        this.correctAnswersEl = document.getElementById('correctAnswers');
+        this.finalScoreEl = document.getElementById('finalScore');
+        this.percentageEl = document.getElementById('percentage');
+        this.badgeTextEl = document.getElementById('badgeText');
+        this.playAgainBtn = document.getElementById('playAgain');
+    }
+    
+    attachEventListeners() {
+        // Difficulty selection
+        this.difficultyButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                this.difficultyButtons.forEach(btn => btn.classList.remove('selected'));
+                e.target.classList.add('selected');
+                this.currentDifficulty = e.target.dataset.difficulty;
             });
-        } else {
-            questions = this.questions[this.currentCategory][this.currentDifficulty] || [];
-        }
-
-        // Shuffle questions
-        questions = this.shuffleArray(questions);
-
-        // Get the required number of questions
-        const questionCount = {
-            easy: 3,
-            medium: 5,
-            hard: 10
-        };
-
-        return questions.slice(0, questionCount[this.currentDifficulty]);
-    }
-
-    shuffleArray(array) {
-        const shuffled = [...array];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        return shuffled;
-    }
-
-    loadQuestion() {
-        const question = this.currentQuestions[this.currentQuestionIndex];
-        
-        // Update question info
-        document.getElementById('questionNumber').textContent = 
-            `Question ${this.currentQuestionIndex + 1}/${this.currentQuestions.length}`;
-        document.getElementById('categoryName').textContent = 
-            this.currentCategory.charAt(0).toUpperCase() + this.currentCategory.slice(1);
-        
-        // Update progress bar
-        const progress = ((this.currentQuestionIndex + 1) / this.currentQuestions.length) * 100;
-        document.getElementById('progressFill').style.width = `${progress}%`;
-        
-        // Update question text
-        document.getElementById('questionText').textContent = question.question;
-        
-        // Update character question
-        document.getElementById('characterQuestion').textContent = question.question;
-        
-        // Update options
-        const options = document.querySelectorAll('.option');
-        options.forEach((option, index) => {
-            option.querySelector('.option-text').textContent = question.options[index];
-            option.classList.remove('selected', 'correct', 'incorrect');
-            option.style.pointerEvents = 'auto';
         });
         
-        // Reset state
-        this.selectedOption = null;
-        this.isAnswered = false;
+        // Start game
+        this.startGameBtn.addEventListener('click', () => this.startGame());
         
-        // Update buttons
-        document.getElementById('previousBtn').disabled = this.currentQuestionIndex === 0;
-        document.getElementById('checkBtn').disabled = true;
+        // Next button
+        this.nextButton.addEventListener('click', () => this.goToNextQuestion());
         
-        // Start timer
-        this.startTimer();
-        
-        // Animate character
-        this.animateCharacter();
+        // Play again
+        this.playAgainBtn.addEventListener('click', () => this.resetGame());
     }
-
-    startTimer() {
-        this.timeLeft = 15;
-        this.updateTimerDisplay();
-        
-        if (this.timer) {
-            clearInterval(this.timer);
-        }
-        
-        this.timer = setInterval(() => {
-            this.timeLeft--;
-            this.totalTime++;
-            this.updateTimerDisplay();
-            
-            if (this.timeLeft <= 0) {
-                this.timeUp();
-            }
-        }, 1000);
-    }
-
-    updateTimerDisplay() {
-        document.getElementById('timer').textContent = `${this.timeLeft}s`;
-        
-        // Change color based on time left
-        const timerElement = document.getElementById('timer');
-        if (this.timeLeft <= 5) {
-            timerElement.style.color = '#ef4444';
-        } else if (this.timeLeft <= 10) {
-            timerElement.style.color = '#fbbf24';
-        } else {
-            timerElement.style.color = 'white';
-        }
-    }
-
-    selectOption(e) {
-        if (this.isAnswered) return;
-        
-        document.querySelectorAll('.option').forEach(option => {
-            option.classList.remove('selected');
-        });
-        
-        e.currentTarget.classList.add('selected');
-        this.selectedOption = e.currentTarget.dataset.option;
-        document.getElementById('checkBtn').disabled = false;
-    }
-
-    checkAnswer() {
-        if (this.isAnswered) return;
-        
-        this.isAnswered = true;
-        clearInterval(this.timer);
-        
-        const question = this.currentQuestions[this.currentQuestionIndex];
-        const correctAnswer = String.fromCharCode(65 + question.correct);
-        const isCorrect = this.selectedOption === correctAnswer;
-        
-        // Show correct/incorrect styling
-        document.querySelectorAll('.option').forEach((option, index) => {
-            option.style.pointerEvents = 'none';
-            if (index === question.correct) {
-                option.classList.add('correct');
-            } else if (option.dataset.option === this.selectedOption && !isCorrect) {
-                option.classList.add('incorrect');
-            }
-        });
-        
-        // Update score and show appreciation
-        if (isCorrect) {
-            this.score++;
-            this.showPointAppreciation();
-            this.addBackgroundEffect('correct');
-        } else {
-            this.addBackgroundEffect('wrong');
-        }
-        
-        // Update character reaction
-        this.updateCharacterReaction(isCorrect);
-        
-        // Auto-advance after delay
-        setTimeout(() => {
-            if (this.currentQuestionIndex < this.currentQuestions.length - 1) {
-                this.nextQuestion();
-            } else {
-                this.endQuiz();
-            }
-        }, 2000);
-    }
-
-    timeUp() {
-        clearInterval(this.timer);
-        this.isAnswered = true;
-        
-        // Show correct answer
-        const question = this.currentQuestions[this.currentQuestionIndex];
-        document.querySelectorAll('.option').forEach((option, index) => {
-            option.style.pointerEvents = 'none';
-            if (index === question.correct) {
-                option.classList.add('correct');
-            }
-        });
-        
-        this.addBackgroundEffect('wrong');
-        this.updateCharacterReaction(false);
-        
-        setTimeout(() => {
-            if (this.currentQuestionIndex < this.currentQuestions.length - 1) {
-                this.nextQuestion();
-            } else {
-                this.endQuiz();
-            }
-        }, 2000);
-    }
-
-    nextQuestion() {
-        this.currentQuestionIndex++;
-        this.loadQuestion();
-    }
-
-    previousQuestion() {
-        if (this.currentQuestionIndex > 0) {
-            this.currentQuestionIndex--;
-            this.loadQuestion();
-        }
-    }
-
-    exitQuiz() {
-        if (confirm('Are you sure you want to exit the quiz?')) {
-            clearInterval(this.timer);
-            this.goToHome();
-        }
-    }
-
-    endQuiz() {
-        clearInterval(this.timer);
-        this.showScoreScreen();
-    }
-
-    showScoreScreen() {
-        this.showScreen('scoreScreen');
-        
-        // Calculate accuracy
-        const accuracy = Math.round((this.score / this.currentQuestions.length) * 100);
-        
-        // Update score display
-        document.getElementById('scoreResult').textContent = 
-            `${this.score} out of ${this.currentQuestions.length} correct!`;
-        document.getElementById('accuracyPercent').textContent = `${accuracy}%`;
-        document.getElementById('totalTime').textContent = `${this.totalTime}s`;
-        
-        // Update message based on performance
-        let message = '';
-        if (accuracy >= 80) {
-            message = 'Excellent! You\'re a quiz master!';
-        } else if (accuracy >= 60) {
-            message = 'Good job! Keep practicing!';
-        } else if (accuracy >= 40) {
-            message = 'Needs Practice';
-        } else {
-            message = 'Keep trying! You\'ll get better!';
-        }
-        
-        document.getElementById('scoreMessage').textContent = message;
-    }
-
-    restartQuiz() {
-        this.startQuiz();
-    }
-
-    goToHome() {
-        clearInterval(this.timer);
-        this.currentDifficulty = null;
-        this.currentCategory = null;
-        
-        // Reset UI
-        document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById('startQuizBtn').disabled = true;
-        
-        this.showScreen('startScreen');
-    }
-
+    
     showScreen(screenId) {
         document.querySelectorAll('.screen').forEach(screen => {
             screen.classList.remove('active');
         });
         document.getElementById(screenId).classList.add('active');
     }
-
-    showPointAppreciation() {
-        const appreciation = document.getElementById('pointAppreciation');
-        const messages = [
-            'Great Job! +1 Point',
-            'Excellent! +1 Point',
-            'Brilliant! +1 Point',
-            'Perfect! +1 Point',
-            'Amazing! +1 Point'
+    
+    startGame() {
+        this.currentCategory = this.categorySelect.value;
+        
+        // Check if difficulty is selected
+        if (!this.currentDifficulty) {
+            this.showMessage('Please select a difficulty level!');
+            return;
+        }
+        
+        // Get questions for selected category and difficulty
+        this.currentQuestions = [...this.questions[this.currentCategory][this.currentDifficulty]];
+        this.shuffleArray(this.currentQuestions);
+        
+        // Set game parameters
+        this.currentQuestionIndex = 0;
+        this.score = 0;
+        this.correctAnswers = 0;
+        this.totalQuestions = this.currentQuestions.length;
+        this.gameActive = true;
+        
+        // Update UI
+        this.totalQuestionsEl.textContent = this.totalQuestions;
+        this.currentScoreEl.textContent = this.score;
+        this.currentQuestionEl.textContent = 1;
+        
+        // Show game screen
+        this.showScreen('gameScreen');
+        
+        // Load first question
+        this.loadQuestion();
+    }
+    
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    
+    loadQuestion() {
+        if (this.currentQuestionIndex >= this.currentQuestions.length) {
+            this.endGame();
+            return;
+        }
+        
+        const question = this.currentQuestions[this.currentQuestionIndex];
+        
+        // Update question counter
+        this.currentQuestionEl.textContent = this.currentQuestionIndex + 1;
+        
+        // Hide Next button
+        this.nextButton.style.display = 'none';
+        
+        // Update character speech
+        this.characterQuestionEl.textContent = this.getRandomQuestionPhrase();
+        
+        // Update question text
+        this.questionTextEl.textContent = question.question;
+        
+        // Clear and populate options
+        this.optionsContainer.innerHTML = '';
+        
+        question.options.forEach((option, index) => {
+            const button = document.createElement('button');
+            button.className = 'option-btn';
+            button.textContent = option;
+            button.addEventListener('click', () => this.selectAnswer(index));
+            this.optionsContainer.appendChild(button);
+        });
+    }
+    
+    getRandomQuestionPhrase() {
+        const phrases = [
+            "Here's your next question!",
+            "Let's test your knowledge!",
+            "Time for another challenge!",
+            "What do you think about this?",
+            "Ready for this one?",
+            "Here comes a good one!",
+            "Let's see what you know!",
+            "Question time!"
         ];
+        return phrases[Math.floor(Math.random() * phrases.length)];
+    }
+    
+    selectAnswer(selectedIndex) {
+        if (!this.gameActive) return;
         
-        document.getElementById('appreciationText').textContent = 
-            messages[Math.floor(Math.random() * messages.length)];
+        const question = this.currentQuestions[this.currentQuestionIndex];
+        const buttons = this.optionsContainer.querySelectorAll('.option-btn');
         
-        appreciation.classList.add('show');
+        // Disable all buttons
+        buttons.forEach(button => {
+            button.disabled = true;
+            button.style.cursor = 'not-allowed';
+        });
+        
+        // Show correct/incorrect
+        if (selectedIndex === question.correct) {
+            buttons[selectedIndex].classList.add('correct');
+            this.score += question.points;
+            this.correctAnswers++;
+            this.currentScoreEl.textContent = this.score;
+            this.showAppreciation(question.points);
+        } else {
+            buttons[selectedIndex].classList.add('incorrect');
+            buttons[question.correct].classList.add('correct');
+        }
+        
+        // Show Next button
+        this.nextButton.style.display = 'block';
+    }
+    
+    goToNextQuestion() {
+        // Hide Next button
+        this.nextButton.style.display = 'none';
+        
+        // Move to next question
+        this.currentQuestionIndex++;
+        this.loadQuestion();
+    }
+    
+    showAppreciation(points) {
+        const messages = {
+            10: ["Great job! +10", "Nice work! +10", "Well done! +10", "Excellent! +10"],
+            20: ["Awesome! +20", "Fantastic! +20", "Brilliant! +20", "Superb! +20"],
+            30: ["Amazing! +30", "Outstanding! +30", "Incredible! +30", "Phenomenal! +30"]
+        };
+        
+        const messageArray = messages[points] || messages[10];
+        const message = messageArray[Math.floor(Math.random() * messageArray.length)];
+        
+        this.appreciationMessageEl.textContent = message;
+        this.appreciationMessageEl.style.display = 'block';
         
         setTimeout(() => {
-            appreciation.classList.remove('show');
+            this.appreciationMessageEl.style.display = 'none';
         }, 1500);
     }
-
-    addBackgroundEffect(type) {
-        document.body.classList.add(type + '-answer');
+    
+    showMessage(message) {
+        this.appreciationMessageEl.textContent = message;
+        this.appreciationMessageEl.style.display = 'block';
+        
         setTimeout(() => {
-            document.body.classList.remove(type + '-answer');
-        }, 600);
+            this.appreciationMessageEl.style.display = 'none';
+        }, 2000);
     }
-
-    animateCharacter() {
-        const character = document.querySelector('.character-host.mini .character');
-        if (character) {
-            character.style.animation = 'none';
-            setTimeout(() => {
-                character.style.animation = 'bounce 2s infinite';
-            }, 10);
-        }
+    
+    endGame() {
+        this.gameActive = false;
+        
+        // Calculate percentage
+        const percentage = Math.round((this.correctAnswers / this.totalQuestions) * 100);
+        
+        // Update score screen
+        this.totalQuestionsScoreEl.textContent = this.totalQuestions;
+        this.correctAnswersEl.textContent = this.correctAnswers;
+        this.finalScoreEl.textContent = this.score;
+        this.percentageEl.textContent = percentage + '%';
+        
+        // Set final message and badge
+        this.setPerformanceMessage(percentage);
+        
+        // Show score screen
+        this.showScreen('scoreScreen');
     }
-
-    updateCharacterReaction(isCorrect) {
-        const speechBubble = document.querySelector('.character-host.mini .speech-bubble p');
-        if (speechBubble) {
-            const correctMessages = [
-                "That's right! Excellent!",
-                "Correct! You're doing great!",
-                "Well done! Keep it up!",
-                "Perfect! Amazing knowledge!",
-                "Brilliant! You're on fire!"
-            ];
-            
-            const wrongMessages = [
-                "Not quite, but keep trying!",
-                "Almost there! Don't give up!",
-                "Nice try! You'll get the next one!",
-                "Not this time, but stay focused!",
-                "Keep going! You're learning!"
-            ];
-            
-            const messages = isCorrect ? correctMessages : wrongMessages;
-            speechBubble.textContent = messages[Math.floor(Math.random() * messages.length)];
+    
+    setPerformanceMessage(percentage) {
+        let message, badge;
+        
+        if (percentage >= 90) {
+            message = "Absolutely incredible! You're a genius!";
+            badge = "🏆 Legendary Master";
+        } else if (percentage >= 80) {
+            message = "Outstanding performance! Excellent work!";
+            badge = "🥇 Expert Champion";
+        } else if (percentage >= 70) {
+            message = "Great job! Very impressive!";
+            badge = "🥈 Skilled Player";
+        } else if (percentage >= 60) {
+            message = "Good effort! Keep practicing!";
+            badge = "🥉 Rising Star";
+        } else if (percentage >= 50) {
+            message = "Not bad! Room for improvement!";
+            badge = "⭐ Learning Player";
+        } else {
+            message = "Keep trying! Practice makes perfect!";
+            badge = "📚 Beginner";
         }
+        
+        this.finalMessageEl.textContent = message;
+        this.badgeTextEl.textContent = badge;
+    }
+    
+    resetGame() {
+        // Reset game state
+        this.currentDifficulty = '';
+        this.currentQuestions = [];
+        this.currentQuestionIndex = 0;
+        this.score = 0;
+        this.correctAnswers = 0;
+        this.totalQuestions = 0;
+        this.gameActive = false;
+        
+        // Reset UI
+        this.difficultyButtons.forEach(btn => btn.classList.remove('selected'));
+        
+        // Show welcome screen
+        this.showScreen('welcomeScreen');
     }
 }
 
-// Initialize the game when DOM is loaded
+// Initialize game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new QuizGame();
 });

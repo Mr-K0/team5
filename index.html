@@ -3,206 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Master - Interactive Quiz Game</title>
+    <title>Quiz Master Game</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="background-effects">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-
-    <!-- Start Screen -->
-    <div id="startScreen" class="screen active">
-        <div class="quiz-card">
-            <div class="character-host">
-                <div class="character">
-                    <div class="brain-icon">
-                        <i class="fas fa-brain"></i>
+    <div class="background-animation"></div>
+    
+    <div class="game-container">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="screen active">
+            <h1 class="game-title">Quiz Master Game</h1>
+            <div class="character-container">
+                <div class="cartoon-character">
+                    <div class="character-body">
+                        <div class="character-face">
+                            <div class="eyes">
+                                <div class="eye left"></div>
+                                <div class="eye right"></div>
+                            </div>
+                            <div class="mouth"></div>
+                            <div class="bow-tie"></div>
+                            <div class="suit-collar"></div>
+                        </div>
+                        <div class="desk"></div>
+                        <div class="monitor"></div>
                     </div>
-                    <div class="character-eyes">
-                        <div class="eye left"></div>
-                        <div class="eye right"></div>
-                    </div>
-                </div>
-                <div class="speech-bubble">
-                    <p>Welcome to Quiz Master! Ready to test your knowledge?</p>
-                </div>
-            </div>
-            
-            <h1 class="main-title">Programming Knowledge Assessment</h1>
-            
-            <div class="difficulty-section">
-                <h2>Select Difficulty</h2>
-                <div class="difficulty-buttons">
-                    <button class="difficulty-btn" data-difficulty="easy">
-                        <i class="fas fa-star"></i>
-                        <span>Easy</span>
-                    </button>
-                    <button class="difficulty-btn" data-difficulty="medium">
-                        <i class="fas fa-fire"></i>
-                        <span>Medium</span>
-                    </button>
-                    <button class="difficulty-btn" data-difficulty="hard">
-                        <i class="fas fa-bolt"></i>
-                        <span>Hard</span>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="category-section">
-                <h2>Category Filter</h2>
-                <div class="category-buttons">
-                    <button class="category-btn active" data-category="all">All</button>
-                    <button class="category-btn" data-category="programming">Programming</button>
-                    <button class="category-btn" data-category="general">General Knowledge</button>
-                    <button class="category-btn" data-category="history">History</button>
-                    <button class="category-btn" data-category="politics">Politics</button>
-                    <button class="category-btn" data-category="science">Science</button>
-                    <button class="category-btn" data-category="sports">Sports</button>
-                    <button class="category-btn" data-category="geography">Geography</button>
-                </div>
-            </div>
-            
-            <button id="startQuizBtn" class="start-btn" disabled>
-                <i class="fas fa-play"></i>
-                Start Quiz
-            </button>
-        </div>
-    </div>
-
-    <!-- Quiz Screen -->
-    <div id="quizScreen" class="screen">
-        <div class="quiz-card">
-            <div class="quiz-header">
-                <div class="question-info">
-                    <span id="questionNumber">Question 1/5</span>
-                    <span id="categoryName" class="category-badge">Programming</span>
-                </div>
-                <div class="timer-section">
-                    <i class="fas fa-clock"></i>
-                    <span id="timer">15s</span>
-                </div>
-            </div>
-            
-            <div class="progress-bar">
-                <div id="progressFill" class="progress-fill"></div>
-            </div>
-            
-            <div class="character-host mini">
-                <div class="character">
-                    <div class="brain-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <div class="character-eyes">
-                        <div class="eye left"></div>
-                        <div class="eye right"></div>
+                    <div class="speech-bubble">
+                        <p>Welcome! Ready to test your knowledge?</p>
                     </div>
                 </div>
-                <div class="speech-bubble mini">
-                    <p id="characterQuestion">Loading question...</p>
-                </div>
             </div>
             
-            <div class="question-section">
-                <h2 id="questionText">What is the capital of France?</h2>
-            </div>
-            
-            <div class="options-section">
-                <div class="option" data-option="A">
-                    <span class="option-letter">A</span>
-                    <span class="option-text">London</span>
+            <div class="menu-options">
+                <div class="category-selection">
+                    <h3>Select Category:</h3>
+                    <select id="categorySelect">
+                        <option value="general">General Knowledge</option>
+                        <option value="programming">Programming</option>
+                        <option value="history">History</option>
+                        <option value="politics">Politics</option>
+                        <option value="science">Science</option>
+                        <option value="sports">Sports</option>
+                    </select>
                 </div>
-                <div class="option" data-option="B">
-                    <span class="option-letter">B</span>
-                    <span class="option-text">Berlin</span>
+                
+                <div class="difficulty-selection">
+                    <h3>Select Difficulty:</h3>
+                    <div class="difficulty-buttons">
+                        <button class="difficulty-btn" data-difficulty="easy">Easy (3 Questions)</button>
+                        <button class="difficulty-btn" data-difficulty="medium">Medium (5 Questions)</button>
+                        <button class="difficulty-btn" data-difficulty="hard">Hard (10 Questions)</button>
+                    </div>
                 </div>
-                <div class="option" data-option="C">
-                    <span class="option-letter">C</span>
-                    <span class="option-text">Paris</span>
-                </div>
-                <div class="option" data-option="D">
-                    <span class="option-letter">D</span>
-                    <span class="option-text">Madrid</span>
-                </div>
-            </div>
-            
-            <div class="quiz-controls">
-                <button id="previousBtn" class="control-btn" disabled>
-                    <i class="fas fa-arrow-left"></i>
-                    Previous
-                </button>
-                <button id="exitBtn" class="control-btn exit">
-                    <i class="fas fa-times"></i>
-                    Exit
-                </button>
-                <button id="checkBtn" class="control-btn check">
-                    <i class="fas fa-check"></i>
-                    Check
-                </button>
+                
+                <button id="startGame" class="start-btn">Start Game</button>
             </div>
         </div>
-    </div>
-
-    <!-- Score Screen -->
-    <div id="scoreScreen" class="screen">
-        <div class="quiz-card score-card">
-            <div class="score-header">
-                <div class="trophy-icon">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <h2 id="scoreResult">3 out of 5 correct!</h2>
-                <p id="scoreMessage">Needs Practice</p>
+        
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen">
+            <div class="game-header">
+                <div class="score-display">Score: <span id="currentScore">0</span></div>
+                <div class="question-counter">Question: <span id="currentQuestion">1</span>/<span id="totalQuestions">3</span></div>
             </div>
             
-            <div class="score-stats">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-bullseye"></i>
+            <div class="character-container">
+                <div class="cartoon-character">
+                    <div class="character-body">
+                        <div class="character-face">
+                            <div class="eyes">
+                                <div class="eye left"></div>
+                                <div class="eye right"></div>
+                            </div>
+                            <div class="mouth"></div>
+                            <div class="bow-tie"></div>
+                            <div class="suit-collar"></div>
+                        </div>
+                        <div class="desk"></div>
+                        <div class="monitor"></div>
                     </div>
-                    <h3 id="accuracyPercent">60%</h3>
-                    <p>Accuracy</p>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
+                    <div class="speech-bubble">
+                        <p id="characterQuestion">Loading question...</p>
                     </div>
-                    <h3 id="totalTime">39s</h3>
-                    <p>Total time</p>
                 </div>
             </div>
             
-            <div class="score-actions">
-                <button id="restartBtn" class="restart-btn">
-                    <i class="fas fa-redo"></i>
-                    Restart
-                </button>
-                <button id="homeBtn" class="home-btn">
-                    <i class="fas fa-home"></i>
-                    Back to Home
-                </button>
+            <div class="question-container">
+                <h2 id="questionText">Question will appear here...</h2>
+                <div class="options-container" id="optionsContainer">
+                    <!-- Options will be dynamically added here -->
+                </div>
+                
+                <button id="nextButton" class="next-btn" style="display: none;">Next Question</button>
             </div>
+            
+            <div class="appreciation-message" id="appreciationMessage"></div>
+        </div>
+        
+        <!-- Score Screen -->
+        <div id="scoreScreen" class="screen">
+            <h1 class="game-title">Game Over!</h1>
+            <div class="character-container">
+                <div class="cartoon-character">
+                    <div class="character-body">
+                        <div class="character-face">
+                            <div class="eyes">
+                                <div class="eye left"></div>
+                                <div class="eye right"></div>
+                            </div>
+                            <div class="mouth"></div>
+                            <div class="bow-tie"></div>
+                            <div class="suit-collar"></div>
+                        </div>
+                        <div class="desk"></div>
+                        <div class="monitor"></div>
+                    </div>
+                    <div class="speech-bubble">
+                        <p id="finalMessage">Great job!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scoreboard">
+                <h2>Final Score</h2>
+                <div class="score-details">
+                    <div class="score-item">
+                        <span class="label">Total Questions:</span>
+                        <span id="totalQuestionsScore">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="label">Correct Answers:</span>
+                        <span id="correctAnswers">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="label">Final Score:</span>
+                        <span id="finalScore">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="label">Percentage:</span>
+                        <span id="percentage">0%</span>
+                    </div>
+                </div>
+                
+                <div class="performance-badge" id="performanceBadge">
+                    <span id="badgeText">Good Effort!</span>
+                </div>
+            </div>
+            
+            <button id="playAgain" class="play-again-btn">Play Again</button>
         </div>
     </div>
-
-    <!-- Point Appreciation -->
-    <div id="pointAppreciation" class="point-appreciation">
-        <div class="appreciation-content">
-            <i class="fas fa-star"></i>
-            <span id="appreciationText">Great Job! +1 Point</span>
-        </div>
-    </div>
-
+    
     <script src="script.js"></script>
 </body>
 </html>
